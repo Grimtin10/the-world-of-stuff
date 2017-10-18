@@ -1,0 +1,358 @@
+<!DOCTYPE HTML>
+	<html>
+		<head>
+			<title>the world of stuff</title>
+		</head>
+			<title>the world of stuff</title>
+
+			<button onClick="play()">play game</button>
+
+			<script>
+				var moolah = 39;
+				var boxes = 0;
+				var epic = 0;
+				var auto = 0;
+				var autoOpen = 0;
+				var gold = 0;
+				var restOfBox = boxExpNeeded;
+				
+				var autoWorking = false;
+				
+				var got = "...nothing";
+				
+				var price = 10;
+				
+				var stage = 1;
+				
+				var doneThis = false;
+				var doneThis2 = false;
+				
+				function play(){
+					alert("Welcome to the world of stuff! Where you open boxes till the end of time.");
+					clear();
+					doThis();
+					setTimeout(function(){
+						init();
+					}, 500);
+				}
+				
+				function autoWork(){
+					setTimeout(function(){
+						moolah=moolah+((auto*moolahGain)*0.1);
+						autoWork();
+						draw(stage);
+					}, 1000);
+				}
+				
+				function getRandom(min, max) {
+					return Math.floor(Math.random() * (max+1 - min) + min);
+				}
+
+				function invalid(){
+					document.write("This is invalid");
+				}
+				
+				function doThis(){
+					document.write("Do this<br>");
+					document.write(".|</br>");
+					document.write(".|<br>");
+					document.write("▼</br>");
+				}
+				
+				function clear(){
+					document.open();
+				}
+				
+				function createButton(text, type){
+					var temp = Button(text, type);
+				}
+				
+				function init(){
+					createButton("work", 0);
+				}
+				
+				function expCheck(){
+					if(restOfWork<=0){//>
+						workExp = 0;
+						moolahGain += -.25;
+						workExpNeeded = workExpNeeded*5;
+						restOfWork = workExpNeeded;
+					}
+					if(restOfBox<=0){//>
+						boxExp = 0;
+						price -= 0.25;
+						boxExpNeeded = boxExpNeeded*10;
+						restOfBox = workExpNeeded;
+					}
+				}
+				
+				function draw(stage){
+					clear();
+					doThis();
+					init();
+					document.write("<br>Money: " + (moolah/1)*1 + " Auto workers: " + auto + " MPS: " + Math.round((auto*moolahGain))*0.1 +  "</br>");
+					if(!doneThis){
+						doneThis = true;
+						doThis2();
+					}else{
+						document.write("Now do this<br>");
+						document.write(".|</br>");
+						document.write(".|<br>");
+						document.write("▼</br>");
+						createButton("buy("+price+"$)", 1);
+						createButton("buy 10("+price*10+"$)", 3);
+						createButton("buy 100("+price*100+"$)", 4);
+						createButton("buy epic("+price*10+"$)", 5);
+						createButton("buy 10 epic("+price*100+"$)", 6);
+						if(stage>=2){
+							document.write("<br>Boxes: " + boxes + " Epic Boxes: " + epic);
+						}
+						if(doneThis2){
+							document.write("</br>And this<br>");
+							document.write(".|</br>");
+							document.write(".|<br>");
+							document.write("▼</br>");
+							createButton("open a box<br>", 2);
+							createButton("open ALL OF DEM<br>", 7);
+							createButton("open epic box<br>", 8);
+							createButton("OPEN EVER SINGLE EPIC BOX THAT YOU HAVE OR SOMETHING LIKE THAT", 9);
+						}
+					}
+					if(stage>=3){
+						document.write("You got: " + got);
+					}
+					document.write("<br>To waste money:</br>");
+					createButton("GUESS THE NUMBER", 10);
+				}
+				
+				function doThis2(){
+					document.write("Now do this<br>");
+					document.write(".|</br>");
+					document.write(".|<br>");
+					document.write("▼</br>");
+					setTimeout(function(){
+						createButton("buy("+price+"$)", 1);
+						createButton("buy 10("+price*10+"$)", 3);
+						createButton("buy 100("+price*100+"$)", 4);
+						createButton("buy epic("+price*10+"$)", 5);
+						createButton("buy 10 epic("+price*100+"$)", 6);
+					}, 500);
+				}
+				
+				function doThis3(){
+					document.write("And this<br>");
+					document.write(".|</br>");
+					document.write(".|<br>");
+					document.write("▼</br>");
+					setTimeout(function(){
+						//createButton("open a box (click now or it will dissapear)", 2);
+					}, 500);
+				}
+				
+				function getBox(){
+					var random = getRandom(1,6);
+					
+					if(random===1){
+						got =  "...nothing";
+					}
+					if(random===2){
+						moolahAmnt = getRandom(1, 20);
+						moolah=moolah+moolahAmnt;
+						got =  moolahAmnt + " bucks.";
+					}
+					if(random===3){
+						boxes++;
+						got = "another box!";
+					}
+					if(random===4){
+						auto++
+						if(!autoWorking){
+							autoWork();
+							autoWorking = true;
+						}
+						got = "auto-worker!";
+					}
+					if(random===5){
+						workExp=workExp+1;
+						restOfWork--;
+						expCheck();
+						got = "experience for working, you need " + restOfWork + " more!";
+					}
+					if(random===6){
+						boxExp=boxExp+1;
+						restOfBox--;
+						expCheck();
+						got = "experience for buying boxes, you need " + restOfBox + " more!";
+					}
+				}
+				
+				function getEpicBox(){
+					var random = getRandom(1,7);
+					
+					if(random===1){
+						got =  "...nothing";
+					}
+					if(random===2){
+						moolahAmnt = getRandom(1, 20);
+						moolah=moolah+(moolahAmnt*10);
+						got =  moolahAmnt*10 + " bucks!";
+					}
+					if(random===3){
+						boxes+=10;
+						got = "10 other boxes!";
+					}
+					if(random===4){
+						auto=auto+10;
+						if(!autoWorking){
+							autoWork();
+							autoWorking = true;
+						}
+						got = "10 auto-workers!";
+					}
+					if(random===5){
+						workExp=workExp+10;
+						restOfWork-=10;
+						expCheck();
+						got = "experience for working, you need " + restOfWork + " more!";
+					}
+					if(random===6){
+						boxExp=boxExp+10;
+						restOfBox-=10;
+						expCheck();
+						got = "experience for buying boxes, you need " + restOfBox + " more!";
+					}
+					if(random==7){
+						var amnt = getRandom(1,2);
+						
+						if(getRandom(0, 10)==7){
+							gold=gold+amnt;
+							got = "GOOOOOOOOOOOOOOOOOOOLD";
+						} else {
+							getEpicBox();
+						}
+					}
+				}
+				
+				/*function save(){
+					document.write("Save file: " + epic + "|" + auto + "|" + boxes + "|" + moolah);
+				}
+				
+				function import(){
+					var mi = document.createElement("input");
+					mi.setAttribute('type', 'text');
+					mi.setAttribute('value', 'default');
+					for(var i=0;i<){/>
+						
+					}
+				}*/
+				
+				function work(){
+					moolah=moolah+moolahGain;
+					draw(stage);
+				}
+				
+				function buy(){
+					if(moolah>=price){
+						if(stage==1){
+							stage = 2;
+						}
+						if(!doneThis2){
+							stage==3;
+							doThis3();
+							doneThis2 = true;
+						}
+						moolah=moolah-price;
+						boxes++;
+					}
+					
+					draw(stage);
+				}
+				
+				function open(){
+					if(stage===2){
+						stage = 3;
+					}
+					if(boxes>0){
+						getBox();
+						boxes--;
+					}
+					
+					draw(stage);
+				}
+				
+				function buyEpic(){
+					if(moolah>=price*10){
+						moolah=moolah-price*10;
+						epic++;
+					}
+					
+					draw(stage);
+				}
+				
+				function openEpic(){
+					if(epic>0){
+						getEpicBox();
+						epic--;
+					}
+					
+					draw(stage);
+				}
+				
+				function Button(text, type){
+					var button = document.createElement("button");
+					button.innerHTML = text;
+					
+					var body = document.getElementsByTagName("body")[0];
+					body.appendChild(button);
+					
+					button.addEventListener ("click", function() {
+						if(type===0){
+							work();
+						} else { 
+							if(type===1){
+								buy();
+							} else {
+								if(type===2){
+									open();
+								} else {
+									if(type===3){
+										for(var i=0;i<10;i++){//>
+											buy();
+										}
+									} else {
+										if(type===4){
+											for(var i=0;i<100;i++){//>
+												buy();
+											}
+										} else {
+											if(type===5){
+												buyEpic();
+											} else {
+												if(type===6){
+													for(var i=0;i<10;i++){//>
+														buyEpic();
+													}
+												} else {
+													if(type===7){
+														for(var i=0;i<boxes;i++){//>
+															open();
+														}
+													} else {
+														if(type==8){
+															openEpic();
+														} else {
+															invalid();
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					});
+				}
+			</script>
+		</body>
+	</html>
